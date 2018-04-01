@@ -29,79 +29,41 @@ var delay = function(milliseconds) {
   return promise
 }
 
-/*
-function countDown(milliseconds) {
-  if (milliseconds > 0) {
-    delay(milliseconds)
-    console.log(milliseconds)
-    countDown(milliseconds - 100)
-  } else {
-    console.log('done!')
-  }
-}
-
-function countDown2(){
-  if (milliseconds > 0) {
-    console.log(milliseconds)
-    return (milliseconds - 100)
-  }else {
-    console.log("done!")
-  }
-}
-*/
 var countDown = function(resolveFromDelay) {
   if (resolveFromDelay > 1) {
     console.log(resolveFromDelay)
     var promise = new Promise(function(resolve,reject){
       setTimeout(function(){
-        //console.log(resolveFromDelay - 100)
         resolve(resolveFromDelay  - 100)
       }, 500)
     })
-
   } else if(resolveFromDelay === 0) {
     console.log('done!')
   }
     return promise
 }
-delay(1000).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown)
 
-/*
-var firstMethod = function() {
-   var promise = new Promise(function(resolve, reject){
-      setTimeout(function() {
-         console.log('first method completed');
-         resolve({data: '123'});
-      }, 2000);
-   });
-   return promise;
-};
+//delay(1000).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown).then(countDown)
 
+// 3.
 
-var secondMethod = function(someStuff) {
-  console.log(someStuff)
-   var promise = new Promise(function(resolve, reject){
-      setTimeout(function() {
-         console.log('second method completed');
-         resolve({newData: someStuff.data + ' some more data'});
-      }, 2000);
-   });
-   return promise;
-};
+var squaring = function(num){
+  var promise = new Promise(function(resolve,reject){
+    if (typeof(num) === "number" ) {
+      resolve(num * num)
+    } else {
+      reject("sorry thats not a number")
+    }
+  })
+  return promise
+}
 
-var thirdMethod = function(someStuff) {
-   var promise = new Promise(function(resolve, reject){
-      setTimeout(function() {
-         console.log('third method completed');
-         resolve({result: someStuff.newData});
-      }, 3000);
-   });
-   return promise;
-};
+var num = [1,2,3,4,5,6,7,8,9]
+num = num.map(function(i) {
+  return squaring(i)
+})
 
-firstMethod()
-   .then(secondMethod)
-   .then(thirdMethod).then(function(result){
-     console.log(result)
-   })
-*/
+Promise.all(num)
+  .then(function(results) {
+    console.log(results);
+  });
